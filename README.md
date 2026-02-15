@@ -57,6 +57,14 @@ The app will be available at `http://localhost:5173`.
 | `npm run preview` | Preview the production build locally |
 | `npm run lint` | Run ESLint |
 
+## Architecture
+
+The application is a pure client-side single-page application built with React 19 and TypeScript, bundled with Vite. It has no backend server — instead, all persistence flows through a mock async REST API layer (`api.ts`) that wraps browser `localStorage` with simulated network delays, making it straightforward to swap in a real backend in the future. The data model is a flat array of `Note` objects, each carrying position, dimensions, text, color, and z-index, serialized as JSON.
+
+State management is handled entirely through React hooks. A custom `useNotes` hook centralizes all CRUD operations and exposes them to the main `App` component. Updates follow an optimistic UI pattern: the React state is modified immediately on user interaction, while a debounced persistence function (300 ms) batches writes to the API layer, keeping the interface responsive without excessive storage writes.
+
+The UI is composed of a small set of focused components — `StickyNote`, `Toolbar`, `ColorPicker`, and `TrashZone` — all styled with inline CSS (no third-party UI or styling libraries). Drag, resize, and drop-to-delete interactions rely on the Pointer Events API with pointer capture for reliable cross-browser behavior. Z-index management uses a global counter so that the most recently interacted note always appears on top.
+
 ## Browser Support
 
 - Google Chrome (latest, Windows & Mac)
