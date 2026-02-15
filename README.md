@@ -30,7 +30,7 @@ A single-page web application for managing sticky notes on a virtual board. Buil
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/facufrastas/tempo-sticky-notes.git
 cd sticky-notes
 ```
 
