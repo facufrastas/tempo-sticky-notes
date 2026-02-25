@@ -59,7 +59,9 @@ export function useNotes() {
     (id: string, changes: Partial<Note>) => {
       setNotes((prev) => {
         const next = prev.map((n) => (n.id === id ? { ...n, ...changes } : n));
+        const updated = next.find((n) => n.id === id);
         persist(next);
+        if (updated) api.updateNote(updated);
         return next;
       });
     },
